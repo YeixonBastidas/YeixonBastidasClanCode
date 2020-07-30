@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace DAL.Repository.IRepository
 {
-    public interface IBetRouletteDAL
+    public interface IUserDAL
     {
-        int CreateBetAsync(BetRoulette betRoulette);
-
-        Task<StartBetDTO> ValidBetByUserIdAsync(BetDTO betUser);
+        Task<User> GetUserByIdAsync(int userId);
+        Task<int> CreateUserAsync(UserDTO user);
     }
 }

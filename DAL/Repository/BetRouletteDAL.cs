@@ -1,4 +1,5 @@
-﻿using DAL.Repository.IRepository;
+﻿using Commun.Constant;
+using DAL.Repository.IRepository;
 using Entities;
 using Entities.DTO;
 using System;
@@ -12,24 +13,23 @@ namespace DAL.Repository
 {
     public class BetRouletteDAL : IBetRouletteDAL
     {
-        public int CreateBetAsync(BetRoulette betRoulette)
+        public async Task<int> CreateBetAsync(BetRoulette betRoulette)
         {
             string connectionString = "Data Source=.;Initial Catalog=DBRoulette;Integrated Security=True";
             int idNewRoulette = 0;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = $"Insert Into BetRoulette (UserId, BetMoney,BetFor, IsWinningUser, BetDate, StartRouletteId) " +
-                             $"Values ('{betRoulette.UserId}', '{betRoulette.BetMoney}', '{betRoulette.BetFor}', '{betRoulette.IsGame}', " +
-                             $" '{DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ")}', '{betRoulette.StartRouletteId}')"
-                            + "SELECT CAST(scope_identity() AS int)";
+                var sql = string.Format(Querys.QueryCreateBet, betRoulette.UserId, betRoulette.BetMoney,
+                                        betRoulette.BetFor, betRoulette.IsGame,
+                                        DateTime.UtcNow.ToString(Constant.FormatDate), betRoulette.StartRouletteId);
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.CommandType = CommandType.Text;
 
-                    connection.Open();
-                    idNewRoulette = (Int32)command.ExecuteScalar();
-                    connection.Close();
+                    await connection.OpenAsync();
+                    idNewRoulette = (Int32)await command.ExecuteScalarAsync();
+                    await connection.CloseAsync();
                 }
                 return idNewRoulette;
             }
@@ -44,38 +44,37 @@ namespace DAL.Repository
             {
                 await connection.OpenAsync();
 
-                string sql = "SELECT sr.RouletteId,sr.Id as StartRouletteId, br.UserId, " +
-                            $"(select us.Money from Users us where us.Id = {betUser.UserId}) as Money " +
-                            $" FROM StartRoulette sr " +
-                            $" left JOIN BetRoulette br on sr.Id = br.StartRouletteId " +
-                            $" and br.UserId = {betUser.UserId} " +
-                            $" WHERE sr.RouletteId = {betUser.RouletteId} and IsOpen = 1 ";
+                string sql = string.Format(Querys.QueryValidBetByUserId, betUser.UserId, betUser.UserId, betUser.RouletteId);
                 SqlCommand command = new SqlCommand(sql, connection);
 
                 using (SqlDataReader dataReader = await command.ExecuteReaderAsync())
                 {
-                    while (await dataReader.ReadAsync())
-                    {
-                        startBet = new StartBetDTO
-                        {
-                            StartRouletteId = !dataReader.IsDBNull("StartRouletteId") ? 
-                                              Convert.ToInt32(dataReader["StartRouletteId"]) 
-                                               : 0,
-                            UserId = !dataReader.IsDBNull("UserId") ? 
-                                        Convert.ToInt32(dataReader["UserId"]) 
-                                        : 0,
-                            RouletteId = !dataReader.IsDBNull("RouletteId") ? 
-                                         Convert.ToInt32(dataReader["RouletteId"]) :
-                                         0,
-                            UserMoney = !dataReader.IsDBNull("Money") ?
-                                        Convert.ToDouble(dataReader["Money"]) : 
-                                        0
-                        };
-                    }
+                    startBet = await SetDataValidBetByUserId(dataReader);
                 }
-
                 await connection.CloseAsync();
             }
+            return startBet;
+        }
+
+        private async Task<StartBetDTO> SetDataValidBetByUserId(SqlDataReader dataReader)
+        {
+            StartBetDTO startBet = new StartBetDTO();
+
+            while (await dataReader.ReadAsync())
+            {
+                startBet = new StartBetDTO
+                {
+                    StartRouletteId = !dataReader.IsDBNull(Constant.AttributeStartRouletteId) ?
+                                      Convert.ToInt32(dataReader[Constant.AttributeStartRouletteId]) : 0,
+                    UserId = !dataReader.IsDBNull(Constant.AttributeUserId) ?
+                                Convert.ToInt32(dataReader[Constant.AttributeUserId]) : 0,
+                    RouletteId = !dataReader.IsDBNull(Constant.AttributeRouletteId) ?
+                                 Convert.ToInt32(dataReader[Constant.AttributeRouletteId]) : 0,
+                    UserMoney = !dataReader.IsDBNull(Constant.AttributeMoney) ?
+                                Convert.ToDouble(dataReader[Constant.AttributeMoney]) : 0
+                };
+            }
+
             return startBet;
         }
     }

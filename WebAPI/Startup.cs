@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BLL;
+using BLL.InterfacesBll;
 using DAL.Repository;
 using DAL.Repository.IRepository;
 using Microsoft.AspNetCore.Builder;
@@ -47,6 +48,8 @@ namespace WebAPI
             services.AddScoped<IStartRouletteDAL, StartRouletteDAL>();
             services.AddScoped<IBetRouletteBll, BetRouletteBll>();
             services.AddScoped<IBetRouletteDAL, BetRouletteDAL>();
+            services.AddScoped<IUserBll, UserBll>();
+            services.AddScoped<IUserDAL, UserDAL>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

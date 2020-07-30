@@ -39,7 +39,7 @@ namespace BLL
                 return resultValidations;
             }
 
-            iBetRouletteDAL.CreateBetAsync(SetBet(betRoulette));
+            await iBetRouletteDAL.CreateBetAsync(SetBet(betRoulette));
             result.Message = Messages.SuccessfulBet;
 
             return result;
@@ -129,7 +129,7 @@ namespace BLL
 
         private void CreateValues()
         {
-            for (int i = 0; i <= 36; i++)
+            for (int i = 0; i <= Constant.NumberMaximumBet; i++)
             {
                 ValuesInGame.Add(Convert.ToString(i));
             }

@@ -1,5 +1,6 @@
 ﻿namespace DAL.Repository
 {
+    using Commun.Constant;
     using DAL.Repository.IRepository;
     using Entities;
     using Entities.DTO;
@@ -18,7 +19,7 @@
             int numberRowAffected = 0;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = $"Update StartRoulette SET IsOpen='0',EndDate='{DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ")}' Where RouletteId='{rouletteId}' and IsOpen = 1";
+                string sql = string.Format(Querys.QueryUpdateCloseRoulette, DateTime.UtcNow.ToString(Constant.FormatDate), rouletteId);
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     await connection.OpenAsync();
@@ -36,9 +37,7 @@
             int idRoulette = 0;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = $"Insert Into StartRoulette (StartDate, RouletteId, IsOpen) Values ('{DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ")}','{startroulette.RouletteId}', '1')"
-                            + "SELECT CAST(scope_identity() AS int)";
-
+                string sql = string.Format(Querys.QueryOpenRoulette, DateTime.UtcNow.ToString(Constant.FormatDate), startroulette.RouletteId);
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.CommandType = CommandType.Text;
@@ -58,27 +57,18 @@
             string connectionString = "Data Source=.;Initial Catalog=DBRoulette;Integrated Security=True";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                //SqlDataReader
+                
                 await connection.OpenAsync();
-
-                string sql = "select top 1 " +
-                             $"  rt.id, rt.Name, " +
-                             $" (select sum(BetMoney)" +
-                             $"  from BetRoulette br " +
-                             $"  where br.StartRouletteId = 3) ResultBet " +
-                             $" from Rouletts rt " +
-                             $" inner join StartRoulette st on rt.Id = st.RouletteId " +
-                             $"  where rt.Id = 3 " +
-                             $" order by 1 desc";
+                string sql = string.Format(Querys.QueryGetCloseRoulette, rouletteId);                
                 SqlCommand command = new SqlCommand(sql, connection);
 
                 using (SqlDataReader dataReader = await command.ExecuteReaderAsync())
                 {
                     while (await dataReader.ReadAsync())
                     {
-                        rouletteSummary.Id = Convert.ToInt32(dataReader["Id"]);
-                        rouletteSummary.Name = Convert.ToString(dataReader["Name"]);
-                        rouletteSummary.AcomuladoBet = Convert.ToDouble(dataReader["ResultBet"]);
+                        rouletteSummary.Id = Convert.ToInt32(dataReader[Constant.AttributeId]);
+                        rouletteSummary.Name = Convert.ToString(dataReader[Constant.AttributeName]);
+                        rouletteSummary.AcomuladoBet = Convert.ToDouble(dataReader[Constant.AttributeResultBet]);
                     }
                 }
 
