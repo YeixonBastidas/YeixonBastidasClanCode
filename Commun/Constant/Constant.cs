@@ -46,8 +46,10 @@ namespace Commun.Constant
 
         public static readonly string MsgGeneralAplicationError = "Lo sentimos algo salío mal, por favor intenta mas tarde";
 
-        public static readonly string AllowFront = "AllowFront";
+        public const string AllowFront = "AllowFront";
 
         public static readonly string DataBaseModel = "ModelDBPrueba";
+
+        public const string ApiController = "/api/[controller]";
     }
 }

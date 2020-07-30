@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BLL;
+using Commun.Constant;
 using Entities.DTO;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
 
 namespace WebAPI.Controllers
 {
-    [Route("/api/[controller]")]
-    [EnableCors("AllowFront")]
+    [Route(Constant.ApiController)]
+    [EnableCors(Constant.AllowFront)]
     [ApiController]
     public class BetRouletteController : Controller
     {

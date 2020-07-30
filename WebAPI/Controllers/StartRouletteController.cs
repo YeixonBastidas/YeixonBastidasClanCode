@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BLL;
-using Entities;
+using Commun.Constant;
 using Entities.DTO;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    [Route("/api/[controller]")]
-    [EnableCors("AllowFront")]
+    [Route(Constant.ApiController)]
+    [EnableCors(Constant.AllowFront)]
     [ApiController]
     public class StartRouletteController : Controller
     {
