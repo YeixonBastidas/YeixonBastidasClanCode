@@ -3,6 +3,7 @@ using Entities.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using System;
+using System.Linq;
 
 namespace WebAPI
 {
@@ -11,8 +12,8 @@ namespace WebAPI
         public static ResultGameDTO GetUserByTokenHeader(HttpRequest httpRequest)
         {
             ResultGameDTO result = new ResultGameDTO();
-            httpRequest.Headers.TryGetValue("UserId", out StringValues headerValues);
-            var userId = headerValues[0];
+            httpRequest.Headers.TryGetValue(Constant.AttributeUserId, out StringValues headerValues);
+            var userId = headerValues.First();
             if (string.IsNullOrEmpty(userId))
             {
                 result.IsError = true;
