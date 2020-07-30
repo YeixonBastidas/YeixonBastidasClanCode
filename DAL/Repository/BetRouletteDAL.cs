@@ -15,9 +15,8 @@ namespace DAL.Repository
     {
         public async Task<int> CreateBetAsync(BetRoulette betRoulette)
         {
-            string connectionString = "Data Source=.;Initial Catalog=DBRoulette;Integrated Security=True";
             int idNewRoulette = 0;
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(BaseContext.GetParameterConnection()))
             {
                 var sql = string.Format(Querys.QueryCreateBet, betRoulette.UserId, betRoulette.BetMoney,
                                         betRoulette.BetFor, betRoulette.IsGame,
@@ -39,8 +38,7 @@ namespace DAL.Repository
         {
             StartBetDTO startBet = new StartBetDTO();
 
-            string connectionString = "Data Source=.;Initial Catalog=DBRoulette;Integrated Security=True";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(BaseContext.GetParameterConnection()))
             {
                 await connection.OpenAsync();
 

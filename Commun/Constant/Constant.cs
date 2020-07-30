@@ -43,5 +43,11 @@ namespace Commun.Constant
         public static readonly string AttributeStartRouletteId = "StartRouletteId";
 
         public static readonly int NumberMaximumBet = 36;
+
+        public static readonly string MsgGeneralAplicationError = "Lo sentimos algo salío mal, por favor intenta mas tarde";
+
+        public static readonly string AllowFront = "AllowFront";
+
+        public static readonly string DataBaseModel = "ModelDBPrueba";
     }
 }

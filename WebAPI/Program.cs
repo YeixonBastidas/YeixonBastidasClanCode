@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace WebAPI
 {
@@ -21,6 +22,9 @@ namespace WebAPI
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                }).UseSerilog((HostBuilderContext context, LoggerConfiguration loggerConfiguration) =>
+                {
+                    loggerConfiguration.ReadFrom.Configuration(context.Configuration);
                 });
     }
 }

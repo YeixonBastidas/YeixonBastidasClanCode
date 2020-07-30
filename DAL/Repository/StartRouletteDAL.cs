@@ -15,9 +15,8 @@
     {
         public async Task<int> CloseStartRouletteAsync(int rouletteId)
         {
-            string connectionString = "Data Source=.;Initial Catalog=DBRoulette;Integrated Security=True";
             int numberRowAffected = 0;
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(BaseContext.GetParameterConnection()))
             {
                 string sql = string.Format(Querys.QueryUpdateCloseRoulette, DateTime.UtcNow.ToString(Constant.FormatDate), rouletteId);
                 using (SqlCommand command = new SqlCommand(sql, connection))
@@ -33,11 +32,12 @@
 
         public async Task<int> OpenStartRouletteAsync(RouletteIdDTO startroulette)
         {
-            string connectionString = "Data Source=.;Initial Catalog=DBRoulette;Integrated Security=True";
             int idRoulette = 0;
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(BaseContext.GetParameterConnection()))
             {
-                string sql = string.Format(Querys.QueryOpenRoulette, DateTime.UtcNow.ToString(Constant.FormatDate), startroulette.RouletteId);
+                string sql = string.Format(Querys.QueryOpenRoulette, 
+                                           DateTime.UtcNow.ToString(Constant.FormatDate), 
+                                           startroulette.RouletteId);
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.CommandType = CommandType.Text;

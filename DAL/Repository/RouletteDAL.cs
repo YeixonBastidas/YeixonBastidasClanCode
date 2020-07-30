@@ -16,8 +16,7 @@ namespace DAL.Repository
         public async Task<IEnumerable<RouletteDTO>> GetRoulettesAsync()
         {
             List<RouletteDTO> rouletteList = new List<RouletteDTO>();            
-            string connectionString = "Data Source=.;Initial Catalog=DBRoulette;Integrated Security=True";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(BaseContext.GetParameterConnection()))
             {               
                 await connection.OpenAsync();
                 SqlCommand command = new SqlCommand(Querys.QueryGetRoulettes, connection);
@@ -40,9 +39,8 @@ namespace DAL.Repository
 
         public async Task<int> CreateRoulettesAsync(Roulette roulette)
         {
-            string connectionString = "Data Source=.;Initial Catalog=DBRoulette;Integrated Security=True";
             int idNewRoulette = 0;
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(BaseContext.GetParameterConnection()))
             {
                 string sql = string.Format(Querys.QueryCreateRoulettes, roulette.RouletteName);
 

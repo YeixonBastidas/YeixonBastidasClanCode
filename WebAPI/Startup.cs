@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BLL;
 using BLL.InterfacesBll;
+using Commun.Constant;
 using DAL.Repository;
 using DAL.Repository.IRepository;
 using Microsoft.AspNetCore.Builder;
@@ -13,12 +14,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebAPI.generic;
 
 namespace WebAPI
 {
     public class Startup
     {
-        readonly string MyAllowSpecificOrigins = "AllowFront";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -31,7 +32,7 @@ namespace WebAPI
         {
             services.AddCors(options =>
             {
-                options.AddPolicy(name: MyAllowSpecificOrigins,
+                options.AddPolicy(name: Constant.AllowFront,
                                   builder =>
                                   {
                                       builder.WithOrigins("http://localhost:58517")
@@ -40,8 +41,14 @@ namespace WebAPI
                                   });
             });
 
-            // services.AddResponseCaching();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<CustomExceptionFilter>();
+            });
+
+            
             services.AddControllers();
+            services.AddScoped<CustomExceptionFilter>();
             services.AddScoped<IRouletteBll, RouletteBll>();
             services.AddScoped<IRouletteDAL, RouletteDAL>();
             services.AddScoped<IStartRouletteBll, StartRouletteBll>();

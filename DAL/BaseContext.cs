@@ -1,11 +1,13 @@
-﻿namespace DAL
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Text;
-    public class BaseContext
-    {
-       
+﻿using Commun.Constant;
+using System;
+
+namespace DAL
+{    
+    public static class BaseContext
+    {     
+        public static string GetParameterConnection()
+        {
+            return Environment.GetEnvironmentVariable(Constant.DataBaseModel) ?? Environment.GetEnvironmentVariable(Constant.DataBaseModel, EnvironmentVariableTarget.Machine);
+        }
     }
 }

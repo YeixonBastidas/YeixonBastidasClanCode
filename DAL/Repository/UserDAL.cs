@@ -15,8 +15,7 @@ namespace DAL.Repository
         {
             User currentUser = new User();
 
-            string connectionString = "Data Source=.;Initial Catalog=DBRoulette;Integrated Security=True";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(BaseContext.GetParameterConnection()))
             {
                 await connection.OpenAsync();
                 string sql = string.Format(Querys.QueryUsersById, userId);
@@ -50,9 +49,8 @@ namespace DAL.Repository
 
         public async Task<int> CreateUserAsync(UserDTO user)
         {
-            string connectionString = "Data Source=.;Initial Catalog=DBRoulette;Integrated Security=True";
             int idNewUser = 0;
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(BaseContext.GetParameterConnection()))
             {
                 var sql = string.Format(Querys.QueryCreateUser, user.Name, user.Alias, user.Money);
 
