@@ -9,7 +9,7 @@ namespace BLL.InterfacesBll
 {
     public interface IUserBll
     {
-        Task<User> GetUserByIdAsync(int userId);
-        Task<int> CreateUserAsync(UserDTO user);
+        Task<ResultGameDTO> GetUserByIdAsync(int userId);
+        Task<ResultGameDTO> CreateUserAsync(UserDTO user);
     }
 }

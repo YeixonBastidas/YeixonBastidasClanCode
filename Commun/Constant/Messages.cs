@@ -20,5 +20,8 @@ namespace Commun.Constant
 
         public static readonly string MessageSummary = "Resumen de apuestas";
 
+        public static readonly string MessageSuccessful = "La petición fue realizada con éxito";
+
+        public static readonly string ErrorNotResult = "No se encontró la información requerida";
     }
 }

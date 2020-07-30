@@ -5,7 +5,7 @@ namespace BLL
 {
     public interface IStartRouletteBll
     {
-        Task<string> OpenStartRouletteAsync(RouletteIdDTO startroulette);
+        Task<ResultGameDTO> OpenStartRouletteAsync(RouletteIdDTO startroulette);
 
         Task<ResultGameDTO> GetCloseRouletteAsync(int rouletteId);
     }

@@ -20,7 +20,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<string> OpenStartRouletteAsync([FromBody] RouletteIdDTO startRouletteid)
+        public async Task<ResultGameDTO> OpenStartRouletteAsync([FromBody] RouletteIdDTO startRouletteid)
         {
             return await iStartRouletteBll.OpenStartRouletteAsync(startRouletteid);
         }

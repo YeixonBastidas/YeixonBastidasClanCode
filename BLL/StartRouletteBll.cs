@@ -17,15 +17,20 @@ namespace BLL
             this.iStartRouletteDAL = iStartRouletteDAL;
         }
 
-        public async Task<string> OpenStartRouletteAsync(RouletteIdDTO startRoulette)
+        public async Task<ResultGameDTO> OpenStartRouletteAsync(RouletteIdDTO startRoulette)
         {
-            var resultRoulette = await this.iStartRouletteDAL.OpenStartRouletteAsync(startRoulette);
-            if (resultRoulette > 0)
+            ResultGameDTO resultGame = new ResultGameDTO();
+            var resultRequest = await this.iStartRouletteDAL.OpenStartRouletteAsync(startRoulette);
+
+            if (resultRequest == 0)
             {
-                return Constant.StatusRouletteStart;
+                resultGame.IsError = true;
+                resultGame.Message = Constant.StatusRouletteError;
+                return resultGame;
             }
 
-            return Constant.StatusRouletteError;
+            resultGame.ResultObject = Constant.StatusRouletteStart;
+            return resultGame;
         }
 
         public async Task<ResultGameDTO> GetCloseRouletteAsync(int rouletteId)

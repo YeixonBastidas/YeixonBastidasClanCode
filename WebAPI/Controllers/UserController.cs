@@ -21,13 +21,13 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<User> GetUserByIdAsync(int userId)
+        public async Task<ResultGameDTO> GetUserByIdAsync(int userId)
         {
             return await iUserBll.GetUserByIdAsync(userId);
         }
 
         [HttpPost]
-        public async Task<int> CreateRoulettesAsync([FromBody] UserDTO user)
+        public async Task<ResultGameDTO> CreateRoulettesAsync([FromBody] UserDTO user)
         {
             return await iUserBll.CreateUserAsync(user);
         }

@@ -19,14 +19,34 @@ namespace BLL
             this.iRoulette = iRoulette;
         }
 
-        public async Task<int> CreateRoulettesAsync(Roulette roulette)
+        public async Task<ResultGameDTO> CreateRoulettesAsync(Roulette roulette)
         {
-            return await this.iRoulette.CreateRoulettesAsync(roulette);
+            ResultGameDTO resultGame = new ResultGameDTO();
+            var resultRequest = await this.iRoulette.CreateRoulettesAsync(roulette);
+
+            if (resultRequest == 0)
+            {
+                resultGame.IsError = true;
+                return resultGame;
+            }
+
+            resultGame.ResultObject = resultRequest;
+            return resultGame;
         }
 
-        public async Task<IEnumerable<RouletteDTO>> GetRoulettesAsync()
+        public async Task<ResultGameDTO> GetRoulettesAsync()
         {
-            return await this.iRoulette.GetRoulettesAsync();
+            ResultGameDTO resultGame = new ResultGameDTO();
+            var resultRequest = await this.iRoulette.GetRoulettesAsync();
+
+            if (resultRequest.Any())
+            {
+                resultGame.IsError = true;
+                return resultGame;
+            }
+
+            resultGame.ResultObject = resultRequest;
+            return resultGame;
         }          
         
     }

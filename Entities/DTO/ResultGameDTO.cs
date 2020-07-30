@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+using Commun.Constant;
 
 namespace Entities.DTO
 {
@@ -9,7 +8,7 @@ namespace Entities.DTO
         public ResultGameDTO()
         {
             this.IsError = false;
-            this.Message = string.Empty;
+            this.Message = Messages.MessageSuccessful;
         }
 
         public bool IsError { get; set; }

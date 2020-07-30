@@ -9,8 +9,8 @@
 
     public interface IRouletteBll
     {
-        Task<IEnumerable<RouletteDTO>> GetRoulettesAsync();
+        Task<ResultGameDTO> GetRoulettesAsync();
 
-        Task<int> CreateRoulettesAsync(Roulette roulette);        
+        Task<ResultGameDTO> CreateRoulettesAsync(Roulette roulette);        
     }
 }

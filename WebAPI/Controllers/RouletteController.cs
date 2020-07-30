@@ -22,13 +22,13 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<RouletteDTO>> GetRoulettesAsync()
+        public async Task<ResultGameDTO> GetRoulettesAsync()
         {
             return await iRoulette.GetRoulettesAsync();
         }
 
         [HttpPost]
-        public async Task<int> CreateRoulettesAsync([FromBody] Roulette roulette)
+        public async Task<ResultGameDTO> CreateRoulettesAsync([FromBody] Roulette roulette)
         {
             return await iRoulette.CreateRoulettesAsync(roulette);
         }

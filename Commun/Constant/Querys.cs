@@ -16,7 +16,7 @@ namespace Commun.Constant
 
         public static readonly string QueryUpdateCloseRoulette = "Update StartRoulette SET IsOpen='0',EndDate='{0}' Where RouletteId='{1}' and IsOpen = 1";
 
-        public static readonly string QueryOpenRoulette = "Insert Into StartRoulette (StartDate, RouletteId, IsOpen) Values ('{0}','{1}', '1') " +
+        public static readonly string QueryOpenRoulette = "Insert Into StartRoulette (StartDate, RouletteId, IsOpen) Values ('{0}',{1}, '1') " +
                                                           " SELECT CAST(scope_identity() AS int)";
 
         public static readonly string QueryGetCloseRoulette = "select top 1  rt.id, rt.Name,  (select sum(BetMoney)" +
